@@ -2,70 +2,85 @@
 grammar toya;
 
 // --------- RULES ---------
-compilation: function*;
+compilation: (function|variableDeclaration)* EOF;
 function: functionSignature '{' statement* '}';
 functionSignature: 'function' name '('functionArgument* (','functionArgument)*')' ('->' type)?;
 functionArgument: name ':' type (ASSERT expression)?;
 
-expression : functionCall #FunCall
+expression : '(' expression ')' #ParenthesisExpression
+           | '('expression MUL expression')' #Multiply
+           | expression MUL expression  #Multiply
+           | '(' expression DIV expression ')' #Divide
+           | expression DIV expression #Divide
+           | '(' expression PLUS expression ')' #Add
+           | expression PLUS expression #Add
+           | '(' expression MINUS expression ')' #Subtract
+           | expression MINUS expression #Subtract
+           | NOT expression #NotExpression
+           | '(' expression (comparator|AND|OR) expression ')' #BooleanExpression
+           | expression (comparator|AND|OR) expression #BoolExpression
            | value #Val
            | reference #VarReference
            | ifExpression #If
            | matchExpression #Match
-           |  '('expression '*' expression')' #Multiply
-           | expression '*' expression  #Multiply
-           | '(' expression '/' expression ')' #Divide
-           | expression '/' expression #Divide
-           | '(' expression '+' expression ')' #Add
-           | expression '+' expression #Add
-           | '(' expression '-' expression ')' #Subtract
-           | expression '-' expression #Subtract;
+           | arrayDeclaration #ArrDeclaration
+           | arrayAccess #ArrAccess
+           | functionCall #FunCall;
+
+comparator: GT | GE | EQ | LE | LT | NE;
+boolean: TRUE | FALSE;
 
 type: 'int'ARRAY*
-     | 'short'ARRAY*
-     | 'long'ARRAY*
-     | 'float'ARRAY*
-     | 'double'ARRAY*
-     | 'char'ARRAY*
-     | 'byte'ARRAY*
-     | 'string'ARRAY*
-     | 'void'ARRAY*;
+    | 'short'ARRAY*
+    | 'long'ARRAY*
+    | 'float'ARRAY*
+    | 'double'ARRAY*
+    | 'char'ARRAY*
+    | 'byte'ARRAY*
+    | 'boolean' ARRAY*
+    | 'string'ARRAY*
+    | 'void'ARRAY*;
 
-nonArrayType: 'int'
+arrayType: 'int'
             | 'short'
             | 'long'
             | 'float'
             | 'double'
             | 'char'
             | 'byte'
-            | 'string'
-            | 'void';
+            | 'boolean'
+            | 'string';
 
 reference: ID;
 name: ID;
 value: INT
      | FLOAT
-     | STRING;
+     | STRING
+     | boolean;
 
 statement: variableDeclaration
-         | printStatement
-         | functionCall
+         | variableAssertion
          | returnStatement
-         | ifExpression
          | forStatement
-         | matchExpression;
+         | expression;
 
-arrayDeclaration: 'new' nonArrayType'['expression']'; // new int[8+1]
-variableDeclaration: VARIABLE name ASSERT (expression|arrayDeclaration); // var c = a+b+3
-printStatement: PRINT expression;
+arrayDeclaration: 'new' arrayType arrayDimension+; // new int[8+1]
+arrayAccess: name arrayDimension+;
+arrayDimension: '[' expression ']';
+
+variableDeclaration: VARIABLE name ASSERT expression; // var c = a+b+3
+variableAssertion: name ('['expression ']')? ASSERT expression;
 functionCall: name'('expression? (',' expression)*')';
 returnStatement: 'return' #ReturnVoid
                | ('return')? expression #ReturnValue;
 
 // if
-ifExpression: ifCondition ifBranch (ELSE ifBranch (ELSE ifCondition ifBranch)*)?;
+ifExpression: ifCondition ifBranch /*(ELSE elseIfCondition elseIfBranch)**/ (ELSE elseBranch)?;
 ifCondition: IF'(' expression ')';
-ifBranch: flexStatementExpression;
+ifBranch: branch;
+elseBranch: branch;
+//elseIfCondition: ifCondition;
+//elseIfBranch: ifBranch;
 
 // for
 forStatement: forHead '{' statement* '}';
@@ -76,11 +91,11 @@ incrementExpression: expression;
 // switch
 matchExpression: matchHead '{' matchBranch* matchDefault '}';
 matchHead: MATCH'('expression')';
-matchBranch: value '->' flexStatementExpression;
-matchDefault: 'default' '->' flexStatementExpression;
+matchBranch: value '->' branch;
+matchDefault: 'default' '->' branch;
 
-flexStatementExpression: ('{'(statement|expression)*'}'|expression);
-
+branch: '{'statement*'}' #Block
+      | expression #Exp;
 
 // --------- TOKENS ---------
 fragment LOWERCASE : [a-z];
@@ -88,7 +103,7 @@ fragment UPPERCASE : [A-Z];
 fragment DIGIT : [0-9];
 fragment EQUALS: '=';
 
-ARRAY : '['']';
+ARRAY : '[]';
 COMMENT : '//' .*? '\n' -> skip;
 
 // arithmetic operators
@@ -117,12 +132,13 @@ FOR: 'for';
 IF: 'if';
 ELSE: 'else';
 VARIABLE: 'var';
-PRINT: 'print';
+TRUE: 'true';
+FALSE: 'false';
 
 ASSERT: EQUALS;
 STRING: '"'.*?'"';
 
-INT: DIGIT+;
-FLOAT: DIGIT+'.'DIGIT+;
+INT: '-'? DIGIT+;
+FLOAT: INT'.'DIGIT+;
 ID: (LOWERCASE|UPPERCASE|DIGIT|'_')+;
 WS: [ \t\n\r]+ -> skip;

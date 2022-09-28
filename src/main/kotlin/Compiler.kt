@@ -5,17 +5,19 @@ import java.io.FileOutputStream
 object Compiler {
     fun compile(args: Array<String>) {
         when(val argumentError = areValidArgs(args)) {
-            ArgumentError.NONE -> {
-                println(argumentError.description)
-            }
+            ArgumentError.NONE -> {}
             ArgumentError.BAD_FILE_EXTENSION -> {
                 println(argumentError.description)
                 println("The following files have the wrong extension:")
-                args.filter { !it.endsWith(".toya") }.forEach {
+                args.filter { !it.endsWith(".toya") }.forEach { _ ->
                     println()
                 }
+                return
             }
-            ArgumentError.NO_FILE -> {}
+            ArgumentError.NO_FILE -> {
+                println(argumentError.description)
+                return
+            }
         }
 
         val files = args.map { File(it) }
@@ -40,11 +42,6 @@ object Compiler {
 
 }
 
-private fun List<File>.mergeFiles(): String {
-    return this.fold("") { acc, file ->
-        acc + file.readText()
-    }
-}
 
 enum class ArgumentError(
     val description: String
