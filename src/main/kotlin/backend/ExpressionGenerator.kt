@@ -1,15 +1,20 @@
 package backend
 
+import ast.expression.*
+import ast.scope.Scope
+import ast.type.BasicType
+import exception.compilation.CalledFunctionDoesNotExistException
 import jdk.internal.org.objectweb.asm.MethodVisitor
 import jdk.internal.org.objectweb.asm.Opcodes
 import jdk.internal.org.objectweb.asm.Type
+import util.DescriptorUtil
 
 class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
     fun generate(expression: Expression, scope: Scope) {
         when (expression) {
             is VarReference -> generate(expression, scope)
             is FunctionCall -> generate(expression, scope)
-            is FunctionParameter -> generate(expression, scope)
+            is FunctionArgument -> generate(expression, scope)
             is Value -> generate(expression, scope)
             is ArithmeticOperation -> generate(expression, scope)
         }
@@ -32,19 +37,19 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
         val localVariable = scope.getLocalVariable(varName)
         val type = localVariable.type
 
-        if (type == BuiltInType.INT) {
+        if (type == BasicType.INT) {
             methodVisitor.visitVarInsn(Opcodes.ILOAD, index)
-        } else if (type == BuiltInType.STRING) {
+        } else if (type == BasicType.STRING) {
             methodVisitor.visitVarInsn(Opcodes.AALOAD, index)
         }
     }
 
-    private fun generate(parameter: FunctionParameter, scope: Scope) {
+    private fun generate(parameter: FunctionArgument, scope: Scope) {
         val type = parameter.type
         val index = scope.getLocalVariableIndex(parameter.name)
-        if (type == BuiltInType.INT) {
+        if (type == BasicType.INT) {
             methodVisitor.visitVarInsn(Opcodes.ILOAD, index)
-        } else if (type == BuiltInType.STRING) {
+        } else if (type == BasicType.STRING) {
             methodVisitor.visitVarInsn(Opcodes.AALOAD, index)
         }
     }
@@ -53,10 +58,10 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
         val type = value.type
         val stringValue = value.value
 
-        if (type == BuiltInType.INT) {
+        if (type == BasicType.INT) {
             val intValue = stringValue.toInt()
             methodVisitor.visitIntInsn(Opcodes.BIPUSH, intValue)
-        } else if (type == BuiltInType.STRING) {
+        } else if (type == BasicType.STRING) {
             methodVisitor.visitLdcInsn(stringValue)
         }
     }

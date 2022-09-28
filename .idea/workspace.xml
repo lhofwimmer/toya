@@ -4,54 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="ADD parser and initial parser">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/Compilation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/Arithmetics.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/ArrayExpressions.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/Branch.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/EmptyExpression.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/Expression.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/FunctionArgument.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/FunctionCall.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/IfExpression.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/MatchExpression.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/Value.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/VarReference.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/function/Function.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/scope/FunctionSignature.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/scope/LocalVariable.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/scope/Scope.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/ForStatement.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/PrintStatement.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/ReturnStatement.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/Statement.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/VariableDeclarationStatement.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/type/BasicType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/type/Type.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ByteCodeGenerator.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/compilation/CalledFunctionDoesNotExistException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/compilation/CompilationException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/LocalVariableNotFoundException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/MethodSignatureNotFoundException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/NoVisitorReturnedException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/VariableNameIsKeywordException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/ToyaTreeWalkErrorListener.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/BranchVisitor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompositeVisitor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/FunctionVisitor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/StatementVisitor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/util/FileUtil.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/util/TypeResolver.kt" afterDir="false" />
+    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="ADD ast + grammar + visitors + some of the bytecode generation">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/util/DescriptorUtil.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Compiler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Compiler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/Parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/Parser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/toya.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/toya.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/ByteCodeGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ByteCodeGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +101,7 @@
       <workItem from="1664238670988" duration="3720000" />
       <workItem from="1664287235133" duration="3483000" />
       <workItem from="1664317451555" duration="4365000" />
-      <workItem from="1664400491166" duration="4822000" />
+      <workItem from="1664400491166" duration="5496000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1663208045824</created>
@@ -158,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663595467868</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="ADD ast + grammar + visitors + some of the bytecode generation">
+      <created>1664406207873</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1664406207873</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,6 +144,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="ADD parser and initial parser" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADD parser and initial parser" />
+    <MESSAGE value="ADD ast + grammar + visitors + some of the bytecode generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="ADD ast + grammar + visitors + some of the bytecode generation" />
   </component>
 </project>

@@ -22,7 +22,7 @@ class ByteCodeGenerator : OpCodes() {
             null
         )
         compilation.functions.forEach {
-            MethodGenerator(classWriter).generate(it)
+            FunctionGenerator(classWriter).generate(it)
         }
         classWriter.visitEnd()
         return classWriter.toByteArray()
