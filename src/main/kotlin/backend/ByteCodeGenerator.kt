@@ -1,11 +1,10 @@
 package backend
 
 import ast.Compilation
-import com.sun.org.apache.xpath.internal.compiler.OpCodes
-import jdk.internal.org.objectweb.asm.ClassWriter
-import jdk.internal.org.objectweb.asm.Opcodes
+import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.Opcodes
 
-class ByteCodeGenerator : OpCodes() {
+class ByteCodeGenerator {
 
     companion object {
         const val CLASS_VERSION = 52

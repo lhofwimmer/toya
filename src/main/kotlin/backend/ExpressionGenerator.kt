@@ -1,13 +1,16 @@
+@file:Suppress("JAVA_MODULE_DOES_NOT_EXPORT_PACKAGE")
+
 package backend
 
 import ast.expression.*
 import ast.scope.Scope
 import ast.type.BasicType
 import exception.compilation.CalledFunctionDoesNotExistException
-import jdk.internal.org.objectweb.asm.MethodVisitor
-import jdk.internal.org.objectweb.asm.Opcodes
-import jdk.internal.org.objectweb.asm.Type
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes
+import org.objectweb.asm.Type
 import util.DescriptorUtil
+import util.isStandardFunction
 
 class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
     fun generate(expression: Expression, scope: Scope) {
@@ -23,7 +26,7 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
     private fun generate(expression: ArithmeticOperation, scope: Scope) {
         generate(expression.leftExpression, scope)
         generate(expression.rightExpression, scope)
-        when(expression) {
+        when (expression) {
             is Addition -> methodVisitor.visitInsn(Opcodes.IADD)
             is Division -> methodVisitor.visitInsn(Opcodes.IDIV)
             is Multiplication -> methodVisitor.visitInsn(Opcodes.IMUL)
@@ -69,12 +72,19 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
     private fun generate(functionCall: FunctionCall, scope: Scope) {
         val parameters = functionCall.parameters
         parameters.forEach { generate(it, scope) }
-        val owner = functionCall.owner ?: ClassType(scope.getClassName())
-
         val methodDescriptor = getFunctionDescriptor(functionCall, scope)
-        val ownerDescriptor = owner.getInternalName()
         val functionName = functionCall.signature.name
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, ownerDescriptor, functionName, methodDescriptor, false)
+
+        if (isStandardFunction(functionName, parameters)) {
+        } else {
+            methodVisitor.visitMethodInsn(
+                Opcodes.INVOKESTATIC,
+                DescriptorUtil.getOwnerDescriptor(),
+                functionName,
+                methodDescriptor,
+                false
+            )
+        }
     }
 
     private fun getFunctionDescriptor(functionCall: FunctionCall, scope: Scope): String {
@@ -93,9 +103,8 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
         return try {
             val functionName = functionCall.signature.name
             val parameters = functionCall.parameters
-            val owner = functionCall.owner
-            val className = owner?.typeName ?: scope.getClassName()
-            val kClass = Class.forName(className).kotlin
+            val owner = DescriptorUtil.getOwnerDescriptor()
+            val kClass = Class.forName("Main").kotlin
             val method = kClass.java.getMethod(functionName)
             Type.getMethodDescriptor(method)
         } catch (ex: ReflectiveOperationException) {

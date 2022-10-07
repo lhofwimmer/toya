@@ -1,3 +1,5 @@
+import ast.Compilation
+import backend.ByteCodeGenerator
 import parsing.Parser
 import java.io.File
 import java.io.FileOutputStream
@@ -38,8 +40,6 @@ object Compiler {
         if(args.any { !it.endsWith(".toya") }) return ArgumentError.BAD_FILE_EXTENSION
         return ArgumentError.NONE
     }
-
-
 }
 
 

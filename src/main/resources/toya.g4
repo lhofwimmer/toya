@@ -4,10 +4,11 @@ grammar toya;
 // --------- RULES ---------
 compilation: (function|variableDeclaration)* EOF;
 function: functionSignature '{' statement* '}';
-functionSignature: 'function' name '('functionArgument* (','functionArgument)*')' ('->' type)?;
+functionSignature: 'function' name '('functionArgument* (','functionArgument)*')' (ARROW type)?;
 functionArgument: name ':' type (ASSERT expression)?;
 
-expression : '(' expression ')' #ParenthesisExpression
+expression : functionCall #FunCall
+           |  '(' expression ')' #ParenthesisExpression
            | '('expression MUL expression')' #Multiply
            | expression MUL expression  #Multiply
            | '(' expression DIV expression ')' #Divide
@@ -24,8 +25,7 @@ expression : '(' expression ')' #ParenthesisExpression
            | ifExpression #If
            | matchExpression #Match
            | arrayDeclaration #ArrDeclaration
-           | arrayAccess #ArrAccess
-           | functionCall #FunCall;
+           | arrayAccess #ArrAccess;
 
 comparator: GT | GE | EQ | LE | LT | NE;
 boolean: TRUE | FALSE;
@@ -42,14 +42,14 @@ type: 'int'ARRAY*
     | 'void'ARRAY*;
 
 arrayType: 'int'
-            | 'short'
-            | 'long'
-            | 'float'
-            | 'double'
-            | 'char'
-            | 'byte'
-            | 'boolean'
-            | 'string';
+         | 'short'
+         | 'long'
+         | 'float'
+         | 'double'
+         | 'char'
+         | 'byte'
+         | 'boolean'
+         | 'string';
 
 reference: ID;
 name: ID;
@@ -58,18 +58,19 @@ value: INT
      | STRING
      | boolean;
 
-statement: variableDeclaration
+statement: expression
+         | variableDeclaration
          | variableAssertion
          | returnStatement
-         | forStatement
-         | expression;
+         | forStatement;
 
 arrayDeclaration: 'new' arrayType arrayDimension+; // new int[8+1]
 arrayAccess: name arrayDimension+;
 arrayDimension: '[' expression ']';
 
 variableDeclaration: VARIABLE name ASSERT expression; // var c = a+b+3
-variableAssertion: name ('['expression ']')? ASSERT expression;
+variableAssertion: name ('['arrayExpression ']')* ASSERT expression;
+arrayExpression: expression;
 functionCall: name'('expression? (',' expression)*')';
 returnStatement: 'return' #ReturnVoid
                | ('return')? expression #ReturnValue;
@@ -91,8 +92,8 @@ incrementExpression: expression;
 // switch
 matchExpression: matchHead '{' matchBranch* matchDefault '}';
 matchHead: MATCH'('expression')';
-matchBranch: value '->' branch;
-matchDefault: 'default' '->' branch;
+matchBranch: value ARROW branch;
+matchDefault: 'default' ARROW branch;
 
 branch: '{'statement*'}' #Block
       | expression #Exp;
@@ -105,6 +106,7 @@ fragment EQUALS: '=';
 
 ARRAY : '[]';
 COMMENT : '//' .*? '\n' -> skip;
+ARROW: '->';
 
 // arithmetic operators
 MUL : '*';
@@ -134,6 +136,7 @@ ELSE: 'else';
 VARIABLE: 'var';
 TRUE: 'true';
 FALSE: 'false';
+NULL: 'null';
 
 ASSERT: EQUALS;
 STRING: '"'.*?'"';

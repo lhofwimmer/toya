@@ -17,6 +17,7 @@ dependencies {
     testImplementation(kotlin("test"))
     antlr("org.antlr:antlr4:4.11.1")
     implementation(kotlin("reflect"))
+    implementation("org.ow2.asm:asm:9.3")
 }
 
 tasks.test {

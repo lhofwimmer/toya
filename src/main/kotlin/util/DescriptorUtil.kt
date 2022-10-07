@@ -17,4 +17,6 @@ object DescriptorUtil {
         val returnDescriptor = returnType.getDescriptor()
         return argumentDescriptor + returnDescriptor
     }
+
+    fun getOwnerDescriptor() = "Main"
 }

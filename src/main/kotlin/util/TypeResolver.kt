@@ -2,26 +2,39 @@ package util
 
 import ast.type.BasicType
 import ast.type.Type
+import exception.parsing.UnableToInferTypeException
 import gen.toyaParser
 
 object TypeResolver {
     fun getFromTypeName(typeContext: toyaParser.TypeContext?): Type {
-        if (typeContext == null) return BasicType.VOID
-        val typeName = typeContext.text
-        return getBuiltInType(typeName)
+        return if (typeContext == null) BasicType.VOID else BasicType.values().first { it.typeName == typeContext.text }
     }
 
-    fun getFromValue(value: String) : Type {
-        if(value.isEmpty()) return BasicType.VOID
-        if(isNumeric(value)) return BasicType.INT
-        return BasicType.STRING
+    fun getFromValue(value: String?): Type {
+        if (value.isNullOrEmpty()) return BasicType.VOID
+        if (isBoolean(value)) return BasicType.BOOLEAN
+        if (isFloat(value)) return BasicType.FLOAT
+        if (isInt(value)) return BasicType.INT
+        if (isString(value)) return BasicType.STRING
+        throw UnableToInferTypeException(value)
     }
 
-    private fun getBuiltInType(typeName: String) : BasicType {
-        return BasicType.values().first { it.typeName == typeName }
+    private val intRegex = Regex("""[\-+]?\d+""")
+    private fun isInt(value: String): Boolean {
+        return intRegex.matches(value)
     }
 
-    private fun isNumeric(value: String) : Boolean {
-        return value.all { it.isDigit() }
+    private val floatRegex = Regex("""[\-+]?\d+\.\d+""")
+    private fun isFloat(value: String): Boolean {
+        return floatRegex.matches(value)
+    }
+
+    private val stringRegex = Regex("""^"[^"]*"$""")
+    private fun isString(value: String): Boolean {
+        return stringRegex.matches(value)
+    }
+
+    private fun isBoolean(value: String): Boolean {
+        return value == "false" || value == "true"
     }
 }

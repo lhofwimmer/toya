@@ -1,6 +1,6 @@
 package parsing.visitor
 
-import exception.compilation.NoVisitorReturnedValueException
+import exception.parsing.NoVisitorReturnedValueException
 import gen.toyaBaseVisitor
 import org.antlr.v4.runtime.ParserRuleContext
 

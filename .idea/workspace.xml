@@ -4,13 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="ADD ast + grammar + visitors + some of the bytecode generation">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/util/DescriptorUtil.kt" afterDir="false" />
+    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="ADD more bytecode generation">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/VariableAssertionStatement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/backend/StandardFunctionGenerator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/CalledStandardFunctionDoesNotExist.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/UnableToInferTypeException.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/FunctionSignatureVisitor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/util/StandardFunction.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Compiler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Compiler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/Compilation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/Compilation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/statement/ForStatement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/ForStatement.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/statement/PrintStatement.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/ByteCodeGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ByteCodeGenerator.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/compilation/CalledFunctionDoesNotExistException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/compilation/CalledFunctionDoesNotExistException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/NoVisitorReturnedException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/NoVisitorReturnedException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompositeVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompositeVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/StatementVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/StatementVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/util/DescriptorUtil.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/util/DescriptorUtil.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/util/TypeResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/util/TypeResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/first.toya" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/first.toya" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/toya.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/toya.g4" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +50,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin File" />
         <option value="Kotlin Data Class" />
+        <option value="Kotlin File" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -57,28 +77,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/home/Lukas/projects/toya/src/main/kotlin/exception&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/home/Lukas/projects/enkel&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last.edited.regexp": "\"123123123iasjdfpasiodjf.5!@%!@%\"",
+    "last_directory_selection": "C:/home/Lukas/projects/toya/src/main/kotlin/exception",
+    "last_opened_file_path": "C:/home/Lukas/projects/test-bytecode-kotlin",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Global Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.3770115",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="exception.compilation" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainKt" />
+      <module name="toya.main" />
+      <option name="PROGRAM_PARAMETERS" value="src\main\resources\first.toya" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.MainKt" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -101,7 +141,16 @@
       <workItem from="1664238670988" duration="3720000" />
       <workItem from="1664287235133" duration="3483000" />
       <workItem from="1664317451555" duration="4365000" />
-      <workItem from="1664400491166" duration="5496000" />
+      <workItem from="1664400491166" duration="5547000" />
+      <workItem from="1664457834290" duration="7662000" />
+      <workItem from="1664795890973" duration="71000" />
+      <workItem from="1664795983989" duration="3623000" />
+      <workItem from="1664803977253" duration="1592000" />
+      <workItem from="1664811106933" duration="1001000" />
+      <workItem from="1664875466903" duration="7433000" />
+      <workItem from="1664966100490" duration="4628000" />
+      <workItem from="1665070423345" duration="1206000" />
+      <workItem from="1665131445402" duration="3095000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1663208045824</created>
@@ -124,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664406207873</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="ADD more bytecode generation">
+      <created>1664406812504</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1664406812504</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +201,18 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="ADD parser and initial parser" />
     <MESSAGE value="ADD ast + grammar + visitors + some of the bytecode generation" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADD ast + grammar + visitors + some of the bytecode generation" />
+    <MESSAGE value="ADD more bytecode generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="ADD more bytecode generation" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/Compiler.kt</url>
+          <line>26</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -2,10 +2,13 @@ package parsing.visitor
 
 import ast.expression.*
 import ast.scope.Scope
+import exception.parsing.StandardFunctionDoesNotExistException
 import gen.toyaBaseVisitor
 import gen.toyaParser
 import gen.toyaParser.ArrayDimensionContext
+import util.PrintFunction
 import util.TypeResolver
+import util.isStandardFunction
 
 class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
     override fun visitVarReference(ctx: toyaParser.VarReferenceContext): Expression {
@@ -41,10 +44,18 @@ class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
 
     override fun visitFunctionCall(ctx: toyaParser.FunctionCallContext): Expression {
         val functionName = ctx.name().text
-        val signature = scope.getSignature(functionName)
         val calledParameters = ctx.expression()
         val arguments = calledParameters.map { it.accept(ExpressionVisitor(scope)) }
-        return FunctionCall(signature, arguments)
+
+        return if(!isStandardFunction(functionName, arguments)) {
+            val signature = scope.getSignature(functionName)
+            FunctionCall(signature, arguments)
+        } else {
+            when(functionName) {
+                "print" -> PrintFunction(arguments.first())
+                else -> throw StandardFunctionDoesNotExistException(functionName, arguments)
+            }
+        }
     }
 
     override fun visitIfExpression(ctx: toyaParser.IfExpressionContext): Expression {

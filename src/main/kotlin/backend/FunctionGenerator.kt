@@ -3,8 +3,8 @@ package backend
 import ast.expression.EmptyExpression
 import ast.function.Function
 import ast.statement.ReturnStatement
-import jdk.internal.org.objectweb.asm.ClassWriter
-import jdk.internal.org.objectweb.asm.Opcodes
+import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.Opcodes
 import util.DescriptorUtil
 
 class FunctionGenerator(private val classWriter: ClassWriter) {
@@ -17,16 +17,16 @@ class FunctionGenerator(private val classWriter: ClassWriter) {
 
         val mv = classWriter.visitMethod(access, name, description, null, null)
         mv.visitCode()
-        val statementGenerator = StatementGenerator(mv, scope)
-        instructions.forEach {statementGenerator.generate(it, scope)}
+        val statementGenerator = StatementGenerator(mv)
+        instructions.forEach { statementGenerator.generate(it, scope) }
         mv.visitInsn(Opcodes.RETURN)
-        mv.visitMaxs(-1,-1)
+        mv.visitMaxs(-1, -1)
         mv.visitEnd()
     }
 
     private fun appendReturnIfNotExists(function: Function, statementGenerator: StatementGenerator) {
         val lastStatement = function.statements.last()
-        if(lastStatement !is ReturnStatement) {
+        if (lastStatement !is ReturnStatement) {
             val emptyExpression = EmptyExpression(function.returnType)
         }
     }

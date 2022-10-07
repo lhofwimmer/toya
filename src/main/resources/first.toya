@@ -1,1 +1,6 @@
-function test()
+function main() {
+    print("Hello world")
+    for(;;) {
+        print("hello world")
+    }
+}
