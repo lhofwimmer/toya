@@ -1,8 +1,11 @@
 package parsing.visitor
 
 import ast.Compilation
+import ast.scope.FunctionSignature
 import ast.scope.LocalVariable
 import ast.scope.Scope
+import ast.type.BasicType
+import exception.parsing.MainFunctionNotFoundException
 import gen.toyaBaseVisitor
 import gen.toyaParser
 
@@ -23,10 +26,15 @@ class CompilationVisitor : toyaBaseVisitor<Compilation>() {
             f
         }
 
+        if(!containsMainFunction(globalScope)) throw MainFunctionNotFoundException
+
         return Compilation(
             functions,
             localVariables,
             globalScope
         )
     }
+
+    private fun containsMainFunction(scope: Scope) : Boolean =
+        scope.containsSignature(FunctionSignature("main", listOf(), BasicType.VOID))
 }

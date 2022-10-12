@@ -2,6 +2,7 @@ package util
 
 import ast.type.BasicType
 import ast.type.Type
+import exception.parsing.BinaryOperationTypeMismatchException
 import exception.parsing.UnableToInferTypeException
 import gen.toyaParser
 
@@ -13,7 +14,7 @@ object TypeResolver {
     fun getFromValue(value: String?): Type {
         if (value.isNullOrEmpty()) return BasicType.VOID
         if (isBoolean(value)) return BasicType.BOOLEAN
-        if (isFloat(value)) return BasicType.FLOAT
+        if (isDouble(value)) return BasicType.DOUBLE
         if (isInt(value)) return BasicType.INT
         if (isString(value)) return BasicType.STRING
         throw UnableToInferTypeException(value)
@@ -25,7 +26,7 @@ object TypeResolver {
     }
 
     private val floatRegex = Regex("""[\-+]?\d+\.\d+""")
-    private fun isFloat(value: String): Boolean {
+    private fun isDouble(value: String): Boolean {
         return floatRegex.matches(value)
     }
 
@@ -36,5 +37,24 @@ object TypeResolver {
 
     private fun isBoolean(value: String): Boolean {
         return value == "false" || value == "true"
+    }
+}
+
+fun Type.checkTypeMatch(rhs: Type) {
+    if (this != rhs) throw BinaryOperationTypeMismatchException(this, rhs)
+}
+
+fun <T>Type.handleTypeGroups(
+    i: () -> T,
+    d: () -> T,
+    a: () -> T,
+    z: () -> T
+) : T {
+    return when(this) {
+        BasicType.INT, BasicType.CHAR -> i()
+        BasicType.DOUBLE -> d()
+        BasicType.STRING -> a()
+        BasicType.BOOLEAN -> z()
+        else -> TODO()
     }
 }

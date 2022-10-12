@@ -1,5 +1,6 @@
 function main() {
     print("Hello world")
+    var a = 1 > 2
     for(;;) {
         print("hello world")
     }

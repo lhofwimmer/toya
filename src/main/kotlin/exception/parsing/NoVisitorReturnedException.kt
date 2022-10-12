@@ -1,5 +1,3 @@
 package exception.parsing
 
-import exception.compilation.CompilationException
-
-class NoVisitorReturnedValueException : CompilationException()
+object NoVisitorReturnedValueException : ParsingException("No visitor returned")

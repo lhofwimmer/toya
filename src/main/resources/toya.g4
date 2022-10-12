@@ -8,6 +8,7 @@ functionSignature: 'function' name '('functionArgument* (','functionArgument)*')
 functionArgument: name ':' type (ASSERT expression)?;
 
 expression : functionCall #FunCall
+           | null #NullExpression
            |  '(' expression ')' #ParenthesisExpression
            | '('expression MUL expression')' #Multiply
            | expression MUL expression  #Multiply
@@ -18,8 +19,12 @@ expression : functionCall #FunCall
            | '(' expression MINUS expression ')' #Subtract
            | expression MINUS expression #Subtract
            | NOT expression #NotExpression
-           | '(' expression (comparator|AND|OR) expression ')' #BooleanExpression
-           | expression (comparator|AND|OR) expression #BoolExpression
+           | '(' expression AND expression ')' #AndExpression
+           | expression AND expression #AndExpression
+           | '(' expression OR expression ')' #OrExpression
+           | expression OR expression #OrExpression
+           | '(' expression comparator expression ')' #BooleanExpression
+           | expression comparator expression #BooleanExpression
            | value #Val
            | reference #VarReference
            | ifExpression #If
@@ -28,6 +33,9 @@ expression : functionCall #FunCall
            | arrayAccess #ArrAccess;
 
 comparator: GT | GE | EQ | LE | LT | NE;
+
+null: NULL;
+
 boolean: TRUE | FALSE;
 
 type: 'int'ARRAY*

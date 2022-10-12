@@ -11,7 +11,7 @@ class BranchVisitor(val scope: Scope) : toyaBaseVisitor<Branch>() {
     override fun visitBlock(ctx: toyaParser.BlockContext): Branch {
         return BranchStatement(
             ctx.statement().map {
-                it.accept(StatementVisitor(scope))
+                it.accept(StatementVisitor(scope)) // TODO: give each branch block its own scope
             }
         )
     }

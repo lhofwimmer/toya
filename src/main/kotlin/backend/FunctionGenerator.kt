@@ -1,11 +1,13 @@
 package backend
 
-import ast.expression.EmptyExpression
+import ast.expression.Expression
 import ast.function.Function
 import ast.statement.ReturnStatement
 import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import util.DescriptorUtil
+import util.handleTypeGroups
 
 class FunctionGenerator(private val classWriter: ClassWriter) {
     fun generate(function: Function) {
@@ -19,15 +21,25 @@ class FunctionGenerator(private val classWriter: ClassWriter) {
         mv.visitCode()
         val statementGenerator = StatementGenerator(mv)
         instructions.forEach { statementGenerator.generate(it, scope) }
-        mv.visitInsn(Opcodes.RETURN)
+        appendReturnIfNotExists(function, mv)
         mv.visitMaxs(-1, -1)
         mv.visitEnd()
     }
 
-    private fun appendReturnIfNotExists(function: Function, statementGenerator: StatementGenerator) {
+    private fun appendReturnIfNotExists(function: Function, methodVisitor: MethodVisitor) {
         val lastStatement = function.statements.last()
         if (lastStatement !is ReturnStatement) {
-            val emptyExpression = EmptyExpression(function.returnType)
+            if (lastStatement is Expression && function.returnType == lastStatement.type) {
+                val opcode = lastStatement.type.handleTypeGroups(
+                    i = { Opcodes.IRETURN },
+                    d = { Opcodes.DRETURN },
+                    a = { Opcodes.ARETURN },
+                    z = { Opcodes.IRETURN }
+                )
+                methodVisitor.visitInsn(opcode)
+            } else {
+                methodVisitor.visitInsn(Opcodes.RETURN)
+            }
         }
     }
 }
