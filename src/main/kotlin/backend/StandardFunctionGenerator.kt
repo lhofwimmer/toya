@@ -6,8 +6,7 @@ import org.objectweb.asm.Opcodes
 import util.PrintFunction
 import util.StandardFunction
 
-class StandardFunctionGenerator(private val mv: MethodVisitor) {
-    private val expressionGenerator: ExpressionGenerator = ExpressionGenerator(mv)
+class StandardFunctionGenerator(private val mv: MethodVisitor, private val expressionGenerator: ExpressionGenerator) {
 
     fun generate(function: StandardFunction, scope: Scope) {
         when (function) {
@@ -16,7 +15,6 @@ class StandardFunctionGenerator(private val mv: MethodVisitor) {
     }
 
     private fun generate(printFunction: PrintFunction, scope: Scope) {
-        val expressionGenerator = ExpressionGenerator(mv)
         val expression = printFunction.message
         mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;")
         expressionGenerator.generate(expression, scope)

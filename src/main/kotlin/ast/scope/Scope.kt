@@ -1,5 +1,6 @@
 package ast.scope
 
+import exception.parsing.LocalVariableNotFoundException
 import exception.parsing.MethodSignatureNotFoundException
 
 class Scope {
@@ -26,7 +27,8 @@ class Scope {
     fun addLocalVariable(localVariable: LocalVariable) = localVariables.add(localVariable)
 
     fun getLocalVariable(varName: String) = localVariables.firstOrNull { it.name == varName }
-        ?: throw MethodSignatureNotFoundException(this, varName)
+        ?: throw LocalVariableNotFoundException(this, varName)
 
     fun getLocalVariableIndex(varName: String) = localVariables.indexOf(getLocalVariable(varName))
+    fun getLocalVariableIndex(localVariable: LocalVariable) = localVariables.indexOf(localVariable)
 }

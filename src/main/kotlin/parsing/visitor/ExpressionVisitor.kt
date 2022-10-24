@@ -6,7 +6,6 @@ import exception.parsing.StandardFunctionDoesNotExistException
 import exception.parsing.UnrecognizedComparatorException
 import gen.toyaBaseVisitor
 import gen.toyaParser
-import gen.toyaParser.ArrayDimensionContext
 import util.PrintFunction
 import util.TypeResolver
 import util.isStandardFunction
@@ -24,23 +23,11 @@ class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
         return Value(value, type)
     }
 
-    override fun visitArrayDeclaration(ctx: toyaParser.ArrayDeclarationContext): Expression {
-        val type = TypeResolver.getFromValue(ctx.arrayType().text)
-        val dimensions = getDimensions(ctx.arrayDimension())
-        return ArrayDeclaration(dimensions, type)
-    }
-
     override fun visitArrayAccess(ctx: toyaParser.ArrayAccessContext): Expression {
         val name = ctx.name().text
         val localVariable = scope.getLocalVariable(name)
-        val dimensions = getDimensions(ctx.arrayDimension())
-        return ArrayAccess(name, localVariable.type, dimensions)
-    }
-
-    private fun getDimensions(ctx: List<ArrayDimensionContext>): List<ArrayDimension> {
-        return ctx.map {
-            ArrayDimension(it.expression().accept(this))
-        }
+        val position = ctx.arrayDimension().accept(this)
+        return ArrayAccess(name, localVariable.type, position)
     }
 
     override fun visitFunctionCall(ctx: toyaParser.FunctionCallContext): Expression {

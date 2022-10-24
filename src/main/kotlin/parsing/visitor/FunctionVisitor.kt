@@ -6,9 +6,11 @@ import ast.scope.LocalVariable
 import ast.scope.Scope
 import ast.statement.Statement
 import ast.type.Type
+import exception.parsing.FunctionNameIsKeywordException
 import gen.toyaBaseVisitor
 import gen.toyaParser
 import util.TypeResolver
+import util.isReservedKeyword
 
 class FunctionVisitor(scope: Scope) : toyaBaseVisitor<Function>() {
     private val scope: Scope
@@ -18,6 +20,8 @@ class FunctionVisitor(scope: Scope) : toyaBaseVisitor<Function>() {
 
     override fun visitFunction(ctx: toyaParser.FunctionContext): Function {
         val name = getName(ctx)
+        if(name.isReservedKeyword()) throw FunctionNameIsKeywordException(name)
+
         val returnType = getReturnType(ctx)
         val arguments = getArguments(ctx)
         val statements = getStatements(ctx)

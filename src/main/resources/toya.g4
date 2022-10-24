@@ -29,7 +29,6 @@ expression : functionCall #FunCall
            | reference #VarReference
            | ifExpression #If
            | matchExpression #Match
-           | arrayDeclaration #ArrDeclaration
            | arrayAccess #ArrAccess;
 
 comparator: GT | GE | EQ | LE | LT | NE;
@@ -38,24 +37,16 @@ null: NULL;
 
 boolean: TRUE | FALSE;
 
-type: 'int'ARRAY*
-    | 'short'ARRAY*
-    | 'long'ARRAY*
-    | 'float'ARRAY*
-    | 'double'ARRAY*
-    | 'char'ARRAY*
-    | 'byte'ARRAY*
-    | 'boolean' ARRAY*
-    | 'string'ARRAY*
-    | 'void'ARRAY*;
+type: 'int'ARRAY?
+    | 'double'ARRAY?
+    | 'char'ARRAY?
+    | 'boolean' ARRAY?
+    | 'string'ARRAY?
+    | 'void'ARRAY?;
 
 arrayType: 'int'
-         | 'short'
-         | 'long'
-         | 'float'
          | 'double'
          | 'char'
-         | 'byte'
          | 'boolean'
          | 'string';
 
@@ -67,17 +58,18 @@ value: INT
      | boolean;
 
 statement: expression
+         | arrayDeclaration
          | variableDeclaration
          | variableAssertion
          | returnStatement
          | forStatement;
 
-arrayDeclaration: 'new' arrayType arrayDimension+; // new int[8+1]
-arrayAccess: name arrayDimension+;
+arrayDeclaration: VARIABLE name ASSERT 'new' arrayType arrayDimension; // new int[8+1]
+arrayAccess: name arrayDimension;
 arrayDimension: '[' expression ']';
 
 variableDeclaration: VARIABLE name ASSERT expression; // var c = a+b+3
-variableAssertion: name ('['arrayExpression ']')* ASSERT expression;
+variableAssertion: name ('['arrayExpression ']')? ASSERT expression;
 arrayExpression: expression;
 functionCall: name'('expression? (',' expression)*')';
 returnStatement: 'return' #ReturnVoid

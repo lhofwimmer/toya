@@ -3,6 +3,7 @@ package backend
 import ast.expression.Expression
 import ast.function.Function
 import ast.statement.ReturnStatement
+import ast.type.BasicType
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
@@ -30,15 +31,17 @@ class FunctionGenerator(private val classWriter: ClassWriter) {
         val lastStatement = function.statements.last()
         if (lastStatement !is ReturnStatement) {
             if (lastStatement is Expression && function.returnType == lastStatement.type) {
-                val opcode = lastStatement.type.handleTypeGroups(
-                    i = { Opcodes.IRETURN },
-                    d = { Opcodes.DRETURN },
-                    a = { Opcodes.ARETURN },
-                    z = { Opcodes.IRETURN }
-                )
+                val opcode = if (function.returnType == BasicType.VOID) {
+                    Opcodes.RETURN
+                } else {
+                    lastStatement.type.handleTypeGroups(
+                        i = { Opcodes.IRETURN },
+                        d = { Opcodes.DRETURN },
+                        a = { Opcodes.ARETURN },
+                        z = { Opcodes.IRETURN }
+                    )
+                }
                 methodVisitor.visitInsn(opcode)
-            } else {
-                methodVisitor.visitInsn(Opcodes.RETURN)
             }
         }
     }

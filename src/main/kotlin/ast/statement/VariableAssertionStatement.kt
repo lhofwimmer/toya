@@ -1,10 +1,11 @@
 package ast.statement
 
 import ast.expression.Expression
+import ast.scope.LocalVariable
 
 data class VariableAssertionStatement (
-    val name: String,
+    val localVariable: LocalVariable,
     val isArray: Boolean,
-    val arrayExpressionList: List<Expression>?,
+    val arrayExpression: Expression?,
     val expression: Expression
 ) : Statement

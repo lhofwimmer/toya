@@ -11,6 +11,10 @@ object TypeResolver {
         return if (typeContext == null) BasicType.VOID else BasicType.values().first { it.typeName == typeContext.text }
     }
 
+    fun getFromTypeName(name: String?): Type {
+        return if (name.isNullOrBlank()) BasicType.VOID else BasicType.values().first { it.typeName == name }
+    }
+
     fun getFromValue(value: String?): Type {
         if (value.isNullOrEmpty()) return BasicType.VOID
         if (isBoolean(value)) return BasicType.BOOLEAN
@@ -44,17 +48,32 @@ fun Type.checkTypeMatch(rhs: Type) {
     if (this != rhs) throw BinaryOperationTypeMismatchException(this, rhs)
 }
 
-fun <T>Type.handleTypeGroups(
+fun <T> Type.handleTypeGroups(
     i: () -> T,
     d: () -> T,
     a: () -> T,
     z: () -> T
-) : T {
-    return when(this) {
+): T {
+    return when (this) {
         BasicType.INT, BasicType.CHAR -> i()
         BasicType.DOUBLE -> d()
         BasicType.STRING -> a()
         BasicType.BOOLEAN -> z()
-        else -> TODO()
+        else -> throw NotImplementedError("handling for type '${this.typeName}' not implemented")
+    }
+}
+
+fun <T> Type.handleTypeArrays(
+    ia: () -> T,
+    da: () -> T,
+    aa: () -> T,
+    ba: () -> T
+): T {
+    return when (this) {
+        BasicType.INT_ARR, BasicType.CHAR_ARR -> ia()
+        BasicType.DOUBLE_ARR -> da()
+        BasicType.STRING_ARR -> aa()
+        BasicType.BOOLEAN_ARR -> ba()
+        else -> throw NotImplementedError("handling for type '${this.typeName}' not implemented")
     }
 }

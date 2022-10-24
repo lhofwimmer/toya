@@ -11,13 +11,10 @@ import org.objectweb.asm.Label
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Type
-import util.DescriptorUtil
-import util.PrintFunction
-import util.checkTypeMatch
-import util.handleTypeGroups
+import util.*
 
 class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
-    private val standardFunctionGenerator = StandardFunctionGenerator(methodVisitor)
+    private val standardFunctionGenerator = StandardFunctionGenerator(methodVisitor, this)
     fun generate(expression: Expression, scope: Scope) {
         when (expression) {
             is VarReference -> generate(expression, scope)
@@ -30,6 +27,56 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
             is BooleanExpression -> generate(expression, scope)
             is NullExpression -> generateNull()
             is IfExpression -> generate(expression, scope)
+            is ArrayAccess -> generate(expression, scope)
+        }
+    }
+
+    private fun generate(arrayAccess: ArrayAccess, scope: Scope) {
+        val index = scope.getLocalVariableIndex(arrayAccess.name)
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, index)
+
+        generate(arrayAccess.location, scope)
+
+        val opcode = arrayAccess.type.handleTypeArrays(
+            ia = {Opcodes.IALOAD},
+            da = {Opcodes.DALOAD},
+            aa = {Opcodes.AALOAD},
+            ba = {Opcodes.BALOAD}
+        )
+        methodVisitor.visitInsn(opcode)
+    }
+
+    private fun generate(ifExpression: IfExpression, scope: Scope) {
+        val condition = ifExpression.ifCondition
+        val trueBranch = ifExpression.branch
+        val elseBranch = ifExpression.elseBranch
+
+        // generate if condition
+        generate(condition, scope)
+
+        val falseLabel = Label()
+        val endLabel = Label()
+
+        methodVisitor.visitJumpInsn(Opcodes.IFEQ, falseLabel)
+
+        generateBranch(trueBranch, scope)
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel)
+
+        if (elseBranch != null) {
+            methodVisitor.visitLabel(falseLabel)
+            generateBranch(elseBranch, scope)
+        }
+
+        methodVisitor.visitLabel(endLabel)
+    }
+
+    private fun generateBranch(branch: Branch, scope: Scope) {
+        when (branch) {
+            is BranchExpression -> generate(branch.expression, scope)
+            is BranchStatement -> {
+                val sg = StatementGenerator(methodVisitor)
+                branch.statement.forEach { st -> sg.generate(st, scope) }
+            }
         }
     }
 
@@ -220,9 +267,8 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
 
     private fun getFunctionDescriptor(functionCall: FunctionCall, scope: Scope): String {
         return (getDescriptorForFunctionInScope(functionCall, scope)
-            ?: getDescriptorForFunctionOnClasspath(functionCall, scope)) ?: throw CalledFunctionDoesNotExistException(
-            functionCall, scope
-        )
+            ?: getDescriptorForFunctionOnClasspath(functionCall, scope))
+            ?: throw CalledFunctionDoesNotExistException(functionCall)
     }
 
     private fun getDescriptorForFunctionInScope(functionCall: FunctionCall, scope: Scope): String? {

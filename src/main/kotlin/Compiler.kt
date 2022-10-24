@@ -21,7 +21,6 @@ object Compiler {
                 return
             }
         }
-
         val files = args.map { File(it) }
         val ast = Parser().getCompilation(files)
         createByteCode(ast, files.firstOrNull()?.nameWithoutExtension ?: "main")

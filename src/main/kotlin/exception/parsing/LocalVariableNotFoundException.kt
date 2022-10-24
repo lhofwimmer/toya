@@ -5,5 +5,7 @@ import ast.scope.Scope
 
 class LocalVariableNotFoundException(
     scope: Scope,
-    localVariable: LocalVariable
-) : ParsingException("No local variable '${localVariable.name}' with type '${localVariable.type}' found in scope '$scope'")
+    localVariable: String
+) : ParsingException("No local variable '${localVariable}' found in scope '$scope'") {
+    constructor(scope: Scope, localVariable: LocalVariable) : this(scope, localVariable.name)
+}

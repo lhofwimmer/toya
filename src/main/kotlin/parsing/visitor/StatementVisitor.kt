@@ -1,20 +1,33 @@
 package parsing.visitor
 
+import ast.expression.ArrayDeclarationStatement
 import ast.expression.EmptyExpression
 import ast.expression.Expression
 import ast.scope.LocalVariable
 import ast.scope.Scope
 import ast.statement.*
 import ast.type.BasicType
+import exception.parsing.VariableNameIsKeywordException
 import gen.toyaBaseVisitor
 import gen.toyaParser
+import util.TypeResolver
+import util.isReservedKeyword
 
 class StatementVisitor(val scope: Scope) : toyaBaseVisitor<Statement>() {
     override fun visitVariableDeclaration(ctx: toyaParser.VariableDeclarationContext): Statement {
         val varName = ctx.name().text
+        if(varName.isReservedKeyword()) throw VariableNameIsKeywordException(varName)
         val expression = ctx.expression().accept(ExpressionVisitor(scope))
         scope.addLocalVariable(LocalVariable(varName, expression.type))
         return VariableDeclarationStatement(varName, expression)
+    }
+
+    override fun visitArrayDeclaration(ctx: toyaParser.ArrayDeclarationContext): Statement {
+        val name = ctx.name().text
+        if(name.isReservedKeyword()) throw VariableNameIsKeywordException(name)
+        val type = TypeResolver.getFromTypeName(ctx.arrayType().text)
+        val size = ctx.arrayDimension().accept(ExpressionVisitor(scope))
+        return ArrayDeclarationStatement(name, size, type)
     }
 
     override fun visitReturnVoid(ctx: toyaParser.ReturnVoidContext): Statement {
@@ -28,15 +41,15 @@ class StatementVisitor(val scope: Scope) : toyaBaseVisitor<Statement>() {
 
     override fun visitVariableAssertion(ctx: toyaParser.VariableAssertionContext): Statement {
         val name = ctx.name().text
-        val isArray = !ctx.arrayExpression().isNullOrEmpty()
+        val localVariable = scope.getLocalVariable(name)
+        val isArray = ctx.arrayExpression() != null
         val expressionVisitor = ExpressionVisitor(scope)
-        val arrayExpressionList =
-            if (!isArray) ctx.arrayExpression().map { it.accept(ExpressionVisitor(scope)) } else null
+        val arrayExpression = if(!isArray) ctx.arrayExpression().accept(ExpressionVisitor(scope)) else null
         val expression = ctx.expression().accept(expressionVisitor)
         return VariableAssertionStatement(
-            name,
+            localVariable,
             isArray,
-            arrayExpressionList,
+            arrayExpression,
             expression
         )
     }
