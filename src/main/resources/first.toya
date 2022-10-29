@@ -1,4 +1,4 @@
-function main() {
+function main(args: string[]) {
     print("Hello world")
     var a = 1 > 2
     print(a)

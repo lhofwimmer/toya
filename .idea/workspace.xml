@@ -4,32 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="ADD standard function (for now only print())&#10;FIX some minor things in toya grammar&#10;MOD some general changes in the parser&#10;ADD new exceptions&#10;MOD general changes in the backend">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/Boolean.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/NullExpression.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/compilation/UnsupportedOperationOnTypeException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/BinaryOperationTypeMismatchException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/MainFunctionNotFoundException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/ParsingException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/UnrecognizedComparatorException.kt" afterDir="false" />
+    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="ADD implementations for arrays (creation, access, assertion) bytecode generation&#10;ADD for statement bytecode generation&#10;ADD if expression generator&#10;FIX some general bugs fixed and new exceptions added.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/type/BasicType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/type/BasicType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/compilation/CompilationException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/compilation/CompilationException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/CalledStandardFunctionDoesNotExist.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/CalledStandardFunctionDoesNotExist.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/LocalVariableNotFoundException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/LocalVariableNotFoundException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/MethodSignatureNotFoundException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/MethodSignatureNotFoundException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/NoVisitorReturnedException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/NoVisitorReturnedException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/VariableNameIsKeywordException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/exception/parsing/VariableNameIsKeywordException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/BranchVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/BranchVisitor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompositeVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompositeVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/util/TypeResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/util/TypeResolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/first.toya" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/first.toya" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/toya.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/toya.g4" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +133,15 @@
       <workItem from="1665403232761" duration="3119000" />
       <workItem from="1665432784679" duration="7115000" />
       <workItem from="1665481464307" duration="9234000" />
-      <workItem from="1665568826341" duration="3440000" />
+      <workItem from="1665568826341" duration="4493000" />
+      <workItem from="1665576585738" duration="2095000" />
+      <workItem from="1665739759520" duration="2017000" />
+      <workItem from="1666179303243" duration="2334000" />
+      <workItem from="1666337078941" duration="5409000" />
+      <workItem from="1666442901911" duration="665000" />
+      <workItem from="1666525311952" duration="3216000" />
+      <workItem from="1666604049301" duration="10017000" />
+      <workItem from="1667045421741" duration="662000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1663208045824</created>
@@ -192,7 +178,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665135781048</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="ADD bytecode generation for boolean operators and comparative operators.&#10;ADD utility/helper functions for handling different instructions for different types (e.g. ILOAD for int, DLOAD for double)">
+      <created>1665573939120</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1665573939120</updated>
+    </task>
+    <task id="LOCAL-00007" summary="ADD implementations for arrays (creation, access, assertion) bytecode generation&#10;ADD for statement bytecode generation&#10;ADD if expression generator&#10;FIX some general bugs fixed and new exceptions added.">
+      <created>1666622135374</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1666622135374</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,19 +215,21 @@
     <MESSAGE value="ADD ast + grammar + visitors + some of the bytecode generation" />
     <MESSAGE value="ADD more bytecode generation" />
     <MESSAGE value="ADD standard function (for now only print())&#10;FIX some minor things in toya grammar&#10;MOD some general changes in the parser&#10;ADD new exceptions&#10;MOD general changes in the backend" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADD standard function (for now only print())&#10;FIX some minor things in toya grammar&#10;MOD some general changes in the parser&#10;ADD new exceptions&#10;MOD general changes in the backend" />
+    <MESSAGE value="ADD bytecode generation for boolean operators and comparative operators.&#10;ADD utility/helper functions for handling different instructions for different types (e.g. ILOAD for int, DLOAD for double)" />
+    <MESSAGE value="ADD implementations for arrays (creation, access, assertion) bytecode generation&#10;ADD for statement bytecode generation&#10;ADD if expression generator&#10;FIX some general bugs fixed and new exceptions added." />
+    <option name="LAST_COMMIT_MESSAGE" value="ADD implementations for arrays (creation, access, assertion) bytecode generation&#10;ADD for statement bytecode generation&#10;ADD if expression generator&#10;FIX some general bugs fixed and new exceptions added." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Compiler.kt</url>
-          <line>26</line>
+          <line>25</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt</url>
-          <line>28</line>
+          <line>29</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
