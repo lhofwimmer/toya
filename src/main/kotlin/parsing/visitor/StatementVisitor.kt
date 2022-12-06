@@ -68,7 +68,7 @@ class StatementVisitor(val scope: Scope) : toyaBaseVisitor<Statement>() {
 
         val expressionVisitor = ExpressionVisitor(forScope)
         val forCondition: Expression? = ctx.forHead().forCondition()?.accept(expressionVisitor)
-        val incrementExpression: Expression? = ctx.forHead().incrementExpression()?.accept(expressionVisitor)
+        val incrementExpression: Statement? = ctx.forHead().incrementStatement()?.accept(this)
 
         val forHead = ForHead(variableDeclaration, forCondition, incrementExpression)
         val forStatements = ctx.statement().map {

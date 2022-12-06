@@ -17,7 +17,6 @@ val reservedKeywords = setOf(
     "double",
     "boolean",
     "string",
-    "char",
 )
 
 fun String.isReservedKeyword() = reservedKeywords.contains(this)

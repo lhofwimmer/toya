@@ -9,13 +9,11 @@ enum class BasicType(
 ) : Type {
     BOOLEAN("boolean", Boolean::class, "Z"),
     INT("int", Int::class, "I"),
-    CHAR("char", Char::class, "C"),
     DOUBLE("double", Double::class, "D"),
     STRING("string", String::class, "Ljava/lang/String;"),
 
     BOOLEAN_ARR("boolean[]", BooleanArray::class, "[B"),
     INT_ARR("int[]", IntArray::class, "[I"),
-    CHAR_ARR("char[]", CharArray::class, "[C"),
     DOUBLE_ARR("double[]", DoubleArray::class, "[D"),
     STRING_ARR("string[]", Array<String>::class, "[Ljava/lang/String;"),
 

@@ -11,6 +11,7 @@ import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Type
 import util.handleTypeArrays
 import util.handleTypeGroups
+import util.isArrayType
 
 class StatementGenerator(private val mv: MethodVisitor) {
     private val expressionGenerator = ExpressionGenerator(mv)
@@ -71,12 +72,16 @@ class StatementGenerator(private val mv: MethodVisitor) {
 
     private fun generate(returnStatement: ReturnStatement, scope: Scope) {
         expressionGenerator.generate(returnStatement.expression, scope)
-        val opcode = returnStatement.expression.type.handleTypeGroups(
-            i = { Opcodes.IRETURN },
-            d = { Opcodes.DRETURN },
-            a = { Opcodes.ARETURN },
-            z = { Opcodes.IRETURN }
-        )
+        val opcode = if(returnStatement.expression.type.isArrayType()) {
+            Opcodes.ARETURN
+        } else {
+            returnStatement.expression.type.handleTypeGroups(
+                i = { Opcodes.IRETURN },
+                d = { Opcodes.DRETURN },
+                a = { Opcodes.ARETURN },
+                z = { Opcodes.IRETURN }
+            )
+        }
         mv.visitInsn(opcode)
     }
 
@@ -114,7 +119,7 @@ class StatementGenerator(private val mv: MethodVisitor) {
     private fun generate(forStatement: ForStatement) {
         val varStatement = forStatement.forHead.variableDeclaration
         val forCondition = forStatement.forHead.forCondition
-        val incrementExpression = forStatement.forHead.incrementExpression
+        val incrementStatement = forStatement.forHead.incrementStatement
 
         val conditionLabel = Label()
         val endLabel = Label()
@@ -132,8 +137,8 @@ class StatementGenerator(private val mv: MethodVisitor) {
 
         forStatement.statements.forEach { generate(it, forStatement.scope) }
 
-        if (incrementExpression != null) {
-            generate(incrementExpression, forStatement.scope)
+        if (incrementStatement != null) {
+            generate(incrementStatement, forStatement.scope)
         }
 
         mv.visitJumpInsn(Opcodes.GOTO, conditionLabel)

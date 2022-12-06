@@ -5,7 +5,7 @@ grammar toya;
 compilation: (function|variableDeclaration)* EOF;
 function: functionSignature '{' statement* '}';
 functionSignature: 'function' name '('functionArgument* (','functionArgument)*')' (ARROW type)?;
-functionArgument: name ':' type (ASSERT expression)?;
+functionArgument: name ':' type;
 
 expression : functionCall #FunCall
            | null #NullExpression
@@ -19,19 +19,22 @@ expression : functionCall #FunCall
            | '(' expression MINUS expression ')' #Subtract
            | expression MINUS expression #Subtract
            | NOT expression #NotExpression
+           | '(' expression comparator expression ')' #BooleanExpression
+           | expression comparator expression #BooleanExpression
+           | '(' expression equality expression ')' #EqualityExpression
+           | expression equality expression #EqualityExpression
            | '(' expression AND expression ')' #AndExpression
            | expression AND expression #AndExpression
            | '(' expression OR expression ')' #OrExpression
            | expression OR expression #OrExpression
-           | '(' expression comparator expression ')' #BooleanExpression
-           | expression comparator expression #BooleanExpression
            | value #Val
            | reference #VarReference
            | ifExpression #If
            | matchExpression #Match
            | arrayAccess #ArrAccess;
 
-comparator: GT | GE | EQ | LE | LT | NE;
+comparator: GT | GE | LE | LT;
+equality: EQ | NE;
 
 null: NULL;
 
@@ -39,14 +42,12 @@ boolean: TRUE | FALSE;
 
 type: 'int'ARRAY?
     | 'double'ARRAY?
-    | 'char'ARRAY?
     | 'boolean' ARRAY?
     | 'string'ARRAY?
     | 'void'ARRAY?;
 
 arrayType: 'int'
          | 'double'
-         | 'char'
          | 'boolean'
          | 'string';
 
@@ -85,9 +86,9 @@ elseBranch: branch;
 
 // for
 forStatement: forHead '{' statement* '}';
-forHead: FOR'(' variableDeclaration? ';' forCondition? ';' incrementExpression? ')';
+forHead: FOR'(' variableDeclaration? ';' forCondition? ';' incrementStatement? ')';
 forCondition: expression;
-incrementExpression: expression;
+incrementStatement: statement;
 
 // switch
 matchExpression: matchHead '{' matchBranch* matchDefault '}';

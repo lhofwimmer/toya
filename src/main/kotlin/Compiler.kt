@@ -23,11 +23,11 @@ object Compiler {
         }
         val files = args.map { File(it) }
         val ast = Parser().getCompilation(files)
-        createByteCode(ast, files.firstOrNull()?.nameWithoutExtension ?: "main")
+        createByteCode(ast, files.first().nameWithoutExtension)
     }
 
     private fun createByteCode(ast: Compilation, className: String) {
-        val byteCode = ByteCodeGenerator().generate(ast)
+        val byteCode = ByteCodeGenerator().generate(ast, className)
         val fileName = "$className.class"
         FileOutputStream(fileName).use {
             it.write(byteCode)

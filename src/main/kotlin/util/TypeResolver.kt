@@ -44,6 +44,11 @@ object TypeResolver {
     }
 }
 
+private val arrayTypes =
+    listOf(BasicType.STRING_ARR, BasicType.INT_ARR, BasicType.BOOLEAN_ARR, BasicType.DOUBLE_ARR)
+
+fun Type.isArrayType() = arrayTypes.contains(this)
+
 fun Type.checkTypeMatch(rhs: Type) {
     if (this != rhs) throw BinaryOperationTypeMismatchException(this, rhs)
 }
@@ -55,7 +60,7 @@ fun <T> Type.handleTypeGroups(
     z: () -> T
 ): T {
     return when (this) {
-        BasicType.INT, BasicType.CHAR -> i()
+        BasicType.INT -> i()
         BasicType.DOUBLE -> d()
         BasicType.STRING -> a()
         BasicType.BOOLEAN -> z()
@@ -70,7 +75,7 @@ fun <T> Type.handleTypeArrays(
     ba: () -> T
 ): T {
     return when (this) {
-        BasicType.INT_ARR, BasicType.CHAR_ARR -> ia()
+        BasicType.INT_ARR -> ia()
         BasicType.DOUBLE_ARR -> da()
         BasicType.STRING_ARR -> aa()
         BasicType.BOOLEAN_ARR -> ba()

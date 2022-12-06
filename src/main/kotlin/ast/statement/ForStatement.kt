@@ -12,5 +12,5 @@ data class ForStatement(
 data class ForHead(
     val variableDeclaration: VariableDeclarationStatement?,
     val forCondition: Expression?,
-    val incrementExpression: Expression?
+    val incrementStatement: Statement?
 )

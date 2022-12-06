@@ -11,7 +11,6 @@ val standardFunctions = listOf( // for now only print and its overloads
     FunctionSignature("print", listOf(FunctionArgument("", BasicType.INT)), BasicType.VOID),
     FunctionSignature("print", listOf(FunctionArgument("", BasicType.DOUBLE)), BasicType.VOID),
     FunctionSignature("print", listOf(FunctionArgument("", BasicType.BOOLEAN)), BasicType.VOID),
-    FunctionSignature("print", listOf(FunctionArgument("", BasicType.CHAR)), BasicType.VOID),
 )
 
 sealed interface StandardFunction : Statement

@@ -11,11 +11,11 @@ class ByteCodeGenerator {
         private val classWriter: ClassWriter = ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS)
     }
 
-    fun generate(compilation: Compilation) : ByteArray {
+    fun generate(compilation: Compilation, className: String) : ByteArray {
         classWriter.visit(
             CLASS_VERSION,
             Opcodes.ACC_PUBLIC,
-            "Main",
+            className,
             null,
             "java/lang/Object",
             null
