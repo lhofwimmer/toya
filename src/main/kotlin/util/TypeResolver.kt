@@ -68,6 +68,26 @@ fun <T> Type.handleTypeGroups(
     }
 }
 
+fun Type.toArrayType() : BasicType {
+    return when (this) {
+        BasicType.INT -> BasicType.INT_ARR
+        BasicType.DOUBLE -> BasicType.DOUBLE_ARR
+        BasicType.STRING -> BasicType.STRING_ARR
+        BasicType.BOOLEAN -> BasicType.BOOLEAN_ARR
+        else -> throw NotImplementedError("conversion to array for type '${this.typeName}' not implemented")
+    }
+}
+
+fun Type.toSingleType() : BasicType {
+    return when (this) {
+        BasicType.INT_ARR -> BasicType.INT
+        BasicType.DOUBLE_ARR -> BasicType.DOUBLE
+        BasicType.STRING_ARR -> BasicType.STRING
+        BasicType.BOOLEAN_ARR -> BasicType.BOOLEAN
+        else -> throw NotImplementedError("conversion from array for type '${this.typeName}' not implemented")
+    }
+}
+
 fun <T> Type.handleTypeArrays(
     ia: () -> T,
     da: () -> T,

@@ -1,0 +1,23 @@
+function printIntro(n: int) {
+    print("Welcome to a simple toya program")
+    print("Calculating numbers up to: ")
+    print(n)
+    print("---------")
+}
+
+function main(args: string[]) {
+    var n = 200
+    printIntro(n)
+
+    for (var i = 0; i <= n; i = i+10) {
+        if (i == 20) {
+            print("i is 20:")
+        }
+        print(i)
+    }
+
+    var boolArr = new boolean[2]
+    boolArr[1] = true
+    print(boolArr[0])
+    print(boolArr[1])
+}

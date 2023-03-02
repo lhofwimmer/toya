@@ -7,11 +7,11 @@ sealed class BooleanExpression(
 ) : Expression(BasicType.BOOLEAN)
 
 data class AndExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : BooleanExpression(leftExpression, rightExpression)
 
 data class OrExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : BooleanExpression(leftExpression, rightExpression)
 
 
@@ -24,25 +24,25 @@ data class NotExpression(
 ) : Expression(BasicType.BOOLEAN)
 
 data class GreaterThanExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : ComparativeExpression(leftExpression, rightExpression)
 
 data class GreaterEqualExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : ComparativeExpression(leftExpression, rightExpression)
 
 data class EqualExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : ComparativeExpression(leftExpression, rightExpression)
 
 data class LessEqualExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : ComparativeExpression(leftExpression, rightExpression)
 
 data class LessThanExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : ComparativeExpression(leftExpression, rightExpression)
 
 data class NotEqualExpression(
-    override val rightExpression: Expression, override val leftExpression: Expression
+    override val leftExpression: Expression, override val rightExpression: Expression
 ) : ComparativeExpression(leftExpression, rightExpression)

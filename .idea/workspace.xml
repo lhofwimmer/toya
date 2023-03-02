@@ -4,19 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="some small changes">
+    <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="MOD changes">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Main.toya" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Compiler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Compiler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/expression/Boolean.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/expression/Boolean.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/scope/Scope.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/scope/Scope.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/statement/ForStatement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/statement/ForStatement.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/type/BasicType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/type/BasicType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/ByteCodeGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ByteCodeGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/StandardFunctionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/StandardFunctionGenerator.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/CompilationVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/BranchVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/BranchVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/StatementVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parsing/visitor/StatementVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/util/ReservedKeywords.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/util/ReservedKeywords.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/util/StandardFunction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/util/StandardFunction.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/util/TypeResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/util/TypeResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/first.toya" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/first.toya" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/first.toya" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/toya.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/toya.g4" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +39,23 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="toya" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -49,7 +71,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/build.gradle.kts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/kotlin/Main.kt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/first.toya" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/Main.toya" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/toya.g4" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KotlinCodeInsightWorkspaceSettings">
@@ -64,47 +86,59 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last.edited.regexp": "\"123123123iasjdfpasiodjf.5!@%!@%\"",
-    "last_directory_selection": "C:/home/Lukas/projects/toya/src/main/kotlin/exception",
-    "last_opened_file_path": "C:/home/Lukas/Schule/5_Semester/wea/ueg2/BookShop",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Global Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.3770115",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last.edited.regexp&quot;: &quot;\&quot;123123123iasjdfpasiodjf.5!@%!@%\&quot;&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/home/Lukas/projects/toya/src/main/kotlin/exception&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/home/Lukas/Schule/5_Semester/ba/HgbThesisDE&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.3770115&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="exception.compilation" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Kotlin.MainKt">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="toya" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainKt" />
       <module name="toya.main" />
-      <option name="PROGRAM_PARAMETERS" value="src\main\resources\first.toya" />
+      <option name="PROGRAM_PARAMETERS" value="src\main\resources\Main.toya" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Kotlin.MainKt" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -163,7 +197,25 @@
       <workItem from="1668596275670" duration="2562000" />
       <workItem from="1669289491544" duration="830000" />
       <workItem from="1669705593078" duration="28000" />
-      <workItem from="1670347206238" duration="60000" />
+      <workItem from="1670347206238" duration="97000" />
+      <workItem from="1673189821473" duration="981000" />
+      <workItem from="1673196003521" duration="10612000" />
+      <workItem from="1673267982016" duration="25295000" />
+      <workItem from="1673349854350" duration="2645000" />
+      <workItem from="1673373317921" duration="7000" />
+      <workItem from="1673446020093" duration="611000" />
+      <workItem from="1673599072202" duration="470000" />
+      <workItem from="1676472846725" duration="2306000" />
+      <workItem from="1676567243681" duration="79000" />
+      <workItem from="1676567338530" duration="652000" />
+      <workItem from="1676582123562" duration="848000" />
+      <workItem from="1676633317550" duration="3511000" />
+      <workItem from="1676741128603" duration="1800000" />
+      <workItem from="1677002102105" duration="1788000" />
+      <workItem from="1677514758751" duration="2629000" />
+      <workItem from="1677567366913" duration="1440000" />
+      <workItem from="1677676085637" duration="9935000" />
+      <workItem from="1677755942869" duration="594000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1663208045824</created>
@@ -221,7 +273,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667050289943</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="MOD changes">
+      <created>1670347271889</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1670347271889</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,17 +306,52 @@
     <MESSAGE value="ADD bytecode generation for boolean operators and comparative operators.&#10;ADD utility/helper functions for handling different instructions for different types (e.g. ILOAD for int, DLOAD for double)" />
     <MESSAGE value="ADD implementations for arrays (creation, access, assertion) bytecode generation&#10;ADD for statement bytecode generation&#10;ADD if expression generator&#10;FIX some general bugs fixed and new exceptions added." />
     <MESSAGE value="some small changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="some small changes" />
+    <MESSAGE value="MOD changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="MOD changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt</url>
+          <line>261</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt</url>
+          <line>75</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/parsing/visitor/StatementVisitor.kt</url>
+          <line>35</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/parsing/visitor/StatementVisitor.kt</url>
+          <line>39</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt</url>
+          <line>34</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt</url>
+          <line>52</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt</url>
-          <line>129</line>
-          <option name="timeStamp" value="1" />
+          <line>49</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

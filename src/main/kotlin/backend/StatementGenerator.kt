@@ -33,11 +33,13 @@ class StatementGenerator(private val mv: MethodVisitor) {
         val index = scope.getLocalVariableIndex(name)
 
         expressionGenerator.generate(expression, scope)
-
-        val storeType = expression.getStoreCode()
-
+        val storeType = expression.type.handleTypeGroups(
+            i = { Opcodes.ISTORE },
+            d = { Opcodes.DSTORE },
+            a = { Opcodes.ASTORE },
+            z = { Opcodes.ISTORE }
+        )
         mv.visitVarInsn(storeType, index)
-
         scope.addLocalVariable(LocalVariable(name, expression.type))
     }
 
@@ -106,7 +108,6 @@ class StatementGenerator(private val mv: MethodVisitor) {
             val storeType = expression.getStoreCode()
             mv.visitVarInsn(storeType, index)
         }
-
     }
 
     private fun Expression.getStoreCode() = this.type.handleTypeGroups(

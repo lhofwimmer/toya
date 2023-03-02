@@ -9,6 +9,7 @@ import gen.toyaParser
 import util.PrintFunction
 import util.TypeResolver
 import util.isStandardFunction
+import util.toSingleType
 
 class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
     override fun visitVarReference(ctx: toyaParser.VarReferenceContext): Expression {
@@ -26,14 +27,13 @@ class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
     override fun visitArrayAccess(ctx: toyaParser.ArrayAccessContext): Expression {
         val name = ctx.name().text
         val localVariable = scope.getLocalVariable(name)
-        val position = ctx.arrayDimension().accept(this)
-        return ArrayAccess(name, localVariable.type, position)
+        val position = ctx.arrayDimension().expression().accept(this)
+        return ArrayAccess(name, localVariable.type.toSingleType(), position)
     }
 
     override fun visitFunctionCall(ctx: toyaParser.FunctionCallContext): Expression {
         val functionName = ctx.name().text
-        val calledParameters = ctx.expression()
-        val arguments = calledParameters.map { it.accept(ExpressionVisitor(scope)) }
+        val arguments = ctx.expression().map { it.accept(this) }
 
         return if (!isStandardFunction(functionName, arguments)) {
             val signature = scope.getSignature(functionName)
@@ -47,29 +47,28 @@ class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
     }
 
     override fun visitIfExpression(ctx: toyaParser.IfExpressionContext): Expression {
-        val ifCondition = ctx.ifCondition().accept(this)
-        val branchVisitor = BranchVisitor(scope)
-        val ifBranch = ctx.ifBranch().accept(branchVisitor)
-        val elseBranch = ctx.elseBranch().accept(branchVisitor)
+        val ifCondition = ctx.ifCondition().expression().accept(this)
+        val ifBranch = ctx.ifBranch().branch().accept(BranchVisitor(Scope(scope)))
+        val elseBranch = ctx.elseBranch()?.branch()?.accept(BranchVisitor(Scope(scope)))
         return IfExpression(ifCondition, ifBranch, elseBranch)
     }
 
-    override fun visitMatch(ctx: toyaParser.MatchContext): Expression {
-        val matchHead = ctx.matchExpression().matchHead().expression().accept(this)
-        val branchVisitor = BranchVisitor(scope)
-        val branches = ctx.matchExpression().matchBranch().map {
-            MatchBranch(
-                Value(it.value().text, TypeResolver.getFromValue(it.value().text)),
-                it.accept(branchVisitor)
-            )
-        }
-        val default = ctx.matchExpression().matchDefault().accept(branchVisitor)
-        return MatchExpression(
-            matchHead,
-            branches,
-            default
-        )
-    }
+//    override fun visitMatch(ctx: toyaParser.MatchContext): Expression {
+//        val matchHead = ctx.matchExpression().matchHead().expression().accept(this)
+//        val branchVisitor = BranchVisitor(scope)
+//        val branches = ctx.matchExpression().matchBranch().map {
+//            MatchBranch(
+//                Value(it.value().text, TypeResolver.getFromValue(it.value().text)),
+//                it.accept(branchVisitor)
+//            )
+//        }
+//        val default = ctx.matchExpression().matchDefault().accept(branchVisitor)
+//        return MatchExpression(
+//            matchHead,
+//            branches,
+//            default
+//        )
+//    }
 
     private fun visitBiOperator(
         leftExpression: toyaParser.ExpressionContext,
@@ -123,6 +122,17 @@ class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
         return NullExpression
     }
 
+    override fun visitEqualityExpression(ctx: toyaParser.EqualityExpressionContext): Expression {
+        val (left, right) = visitBiOperator(ctx.expression(0), ctx.expression(1))
+        val comparator = ctx.equality()
+
+        return when (comparator.start.type) {
+            toyaParser.EQ -> EqualExpression(left, right)
+            toyaParser.NE -> NotEqualExpression(left, right)
+            else -> throw UnrecognizedComparatorException(comparator.text)
+        }
+    }
+
     override fun visitBooleanExpression(ctx: toyaParser.BooleanExpressionContext): Expression {
         val (left, right) = visitBiOperator(ctx.expression(0), ctx.expression(1))
         val comparator = ctx.comparator()
@@ -132,8 +142,6 @@ class ExpressionVisitor(val scope: Scope) : toyaBaseVisitor<Expression>() {
             toyaParser.GE -> GreaterEqualExpression(left, right)
             toyaParser.LT -> LessThanExpression(left, right)
             toyaParser.LE -> LessEqualExpression(left, right)
-            toyaParser.EQ -> EqualExpression(left, right)
-            toyaParser.NE -> NotEqualExpression(left, right)
             toyaParser.AND -> AndExpression(left, right)
             toyaParser.OR -> OrExpression(left, right)
             else -> throw UnrecognizedComparatorException(comparator.text)

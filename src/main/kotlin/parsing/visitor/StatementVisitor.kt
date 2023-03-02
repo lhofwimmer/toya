@@ -2,7 +2,6 @@ package parsing.visitor
 
 import ast.expression.ArrayDeclarationStatement
 import ast.expression.EmptyExpression
-import ast.expression.Expression
 import ast.scope.LocalVariable
 import ast.scope.Scope
 import ast.statement.*
@@ -12,6 +11,7 @@ import gen.toyaBaseVisitor
 import gen.toyaParser
 import util.TypeResolver
 import util.isReservedKeyword
+import util.toArrayType
 
 class StatementVisitor(val scope: Scope) : toyaBaseVisitor<Statement>() {
     override fun visitVariableDeclaration(ctx: toyaParser.VariableDeclarationContext): Statement {
@@ -25,12 +25,14 @@ class StatementVisitor(val scope: Scope) : toyaBaseVisitor<Statement>() {
     override fun visitArrayDeclaration(ctx: toyaParser.ArrayDeclarationContext): Statement {
         val name = ctx.name().text
         if(name.isReservedKeyword()) throw VariableNameIsKeywordException(name)
-        val type = TypeResolver.getFromTypeName(ctx.arrayType().text)
-        val size = ctx.arrayDimension().accept(ExpressionVisitor(scope))
+        val type = TypeResolver.getFromTypeName(ctx.arrayType().text).toArrayType()
+        val size = ctx.arrayDimension().expression().accept(ExpressionVisitor(scope))
+        scope.addLocalVariable(LocalVariable(name, type))
         return ArrayDeclarationStatement(name, size, type)
     }
 
     override fun visitReturnVoid(ctx: toyaParser.ReturnVoidContext): Statement {
+
         return ReturnStatement(EmptyExpression(BasicType.VOID))
     }
 
@@ -44,7 +46,7 @@ class StatementVisitor(val scope: Scope) : toyaBaseVisitor<Statement>() {
         val localVariable = scope.getLocalVariable(name)
         val isArray = ctx.arrayExpression() != null
         val expressionVisitor = ExpressionVisitor(scope)
-        val arrayExpression = if(!isArray) ctx.arrayExpression().accept(ExpressionVisitor(scope)) else null
+        val arrayExpression = if(isArray) ctx.arrayExpression()?.expression()?.accept(ExpressionVisitor(scope)) else null
         val expression = ctx.expression().accept(expressionVisitor)
         return VariableAssertionStatement(
             localVariable,
@@ -67,13 +69,14 @@ class StatementVisitor(val scope: Scope) : toyaBaseVisitor<Statement>() {
         )
 
         val expressionVisitor = ExpressionVisitor(forScope)
-        val forCondition: Expression? = ctx.forHead().forCondition()?.accept(expressionVisitor)
-        val incrementExpression: Statement? = ctx.forHead().incrementStatement()?.accept(this)
+        val statementVisitor = StatementVisitor(forScope)
+
+        val forCondition = ctx.forHead().forCondition()?.expression()?.accept(expressionVisitor)
+        val incrementExpression = ctx.forHead().incrementStatement()?.statement()?.accept(this)
 
         val forHead = ForHead(variableDeclaration, forCondition, incrementExpression)
-        val forStatements = ctx.statement().map {
-            it.accept(this)
-        }
+        val compositeVisitor = CompositeVisitor(statementVisitor, expressionVisitor)
+        val forStatements = ctx.statement().map(compositeVisitor::accept).toList()
         return ForStatement(forHead, forStatements, forScope)
     }
 }

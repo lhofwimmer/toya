@@ -28,10 +28,10 @@ expression : functionCall #FunCall
            | '(' expression OR expression ')' #OrExpression
            | expression OR expression #OrExpression
            | value #Val
+           | arrayAccess #ArrAccess
            | reference #VarReference
-           | ifExpression #If
-           | matchExpression #Match
-           | arrayAccess #ArrAccess;
+           | ifExpression #If;
+//           | matchExpression #Match
 
 comparator: GT | GE | LE | LT;
 equality: EQ | NE;
@@ -73,11 +73,11 @@ variableDeclaration: VARIABLE name ASSERT expression; // var c = a+b+3
 variableAssertion: name ('['arrayExpression ']')? ASSERT expression;
 arrayExpression: expression;
 functionCall: name'('expression? (',' expression)*')';
-returnStatement: 'return' #ReturnVoid
-               | ('return')? expression #ReturnValue;
+returnStatement: ('return')? expression #ReturnValue
+               | 'return' #ReturnVoid;
 
 // if
-ifExpression: ifCondition ifBranch /*(ELSE elseIfCondition elseIfBranch)**/ (ELSE elseBranch)?;
+ifExpression: ifCondition ifBranch (ELSE elseBranch)?;
 ifCondition: IF'(' expression ')';
 ifBranch: branch;
 elseBranch: branch;
@@ -91,10 +91,10 @@ forCondition: expression;
 incrementStatement: statement;
 
 // switch
-matchExpression: matchHead '{' matchBranch* matchDefault '}';
-matchHead: MATCH'('expression')';
-matchBranch: value ARROW branch;
-matchDefault: 'default' ARROW branch;
+//matchExpression: matchHead '{' matchBranch* matchDefault '}';
+//matchHead: MATCH'('expression')';
+//matchBranch: value ARROW branch;
+//matchDefault: 'default' ARROW branch;
 
 branch: '{'statement*'}' #Block
       | expression #Exp;

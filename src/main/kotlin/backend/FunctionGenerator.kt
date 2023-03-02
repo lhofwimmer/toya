@@ -9,6 +9,7 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import util.DescriptorUtil
 import util.handleTypeGroups
+import util.isArrayType
 
 class FunctionGenerator(private val classWriter: ClassWriter) {
     fun generate(function: Function) {
@@ -30,19 +31,25 @@ class FunctionGenerator(private val classWriter: ClassWriter) {
     private fun appendReturnIfNotExists(function: Function, methodVisitor: MethodVisitor) {
         val lastStatement = function.statements.last()
         if (lastStatement !is ReturnStatement) {
-            if (lastStatement is Expression && function.returnType == lastStatement.type) {
-                val opcode = if (function.returnType == BasicType.VOID) {
+            val opcode = if (lastStatement is Expression && function.returnType == lastStatement.type) {
+                if (function.returnType == BasicType.VOID) {
                     Opcodes.RETURN
                 } else {
-                    lastStatement.type.handleTypeGroups(
-                        i = { Opcodes.IRETURN },
-                        d = { Opcodes.DRETURN },
-                        a = { Opcodes.ARETURN },
-                        z = { Opcodes.IRETURN }
-                    )
+                    if (lastStatement.type.isArrayType()) {
+                        Opcodes.ARETURN
+                    } else {
+                        lastStatement.type.handleTypeGroups(
+                            i = { Opcodes.IRETURN },
+                            d = { Opcodes.DRETURN },
+                            a = { Opcodes.ARETURN },
+                            z = { Opcodes.IRETURN }
+                        )
+                    }
                 }
-                methodVisitor.visitInsn(opcode)
+            } else {
+                Opcodes.RETURN
             }
+            methodVisitor.visitInsn(opcode)
         }
     }
 }
