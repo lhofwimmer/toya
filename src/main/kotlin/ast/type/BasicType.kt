@@ -20,7 +20,5 @@ enum class BasicType(
     NONE("", null, ""),
     VOID("void", Void::class , "V");
 
-    override fun getTypeClass(): KClass<*>? = typeClass
-
     override fun getDescriptor(): String = descriptor
 }

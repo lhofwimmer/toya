@@ -6,16 +6,16 @@ import exception.parsing.MethodSignatureNotFoundException
 
 class Scope {
     private val localVariables: MutableList<LocalVariable>
-    private var functionSignatures: MutableList<FunctionSignature>
+    private var functionSignatures: MutableSet<FunctionSignature>
 
     constructor(scope: Scope) {
         localVariables = scope.localVariables.toMutableList()
-        functionSignatures = scope.functionSignatures.toMutableList()
+        functionSignatures = scope.functionSignatures.toMutableSet()
     }
 
     constructor() {
         localVariables = mutableListOf()
-        functionSignatures = mutableListOf()
+        functionSignatures = mutableSetOf()
     }
 
     fun addSignature(signature: FunctionSignature) {

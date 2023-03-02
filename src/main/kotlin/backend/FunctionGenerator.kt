@@ -29,7 +29,7 @@ class FunctionGenerator(private val classWriter: ClassWriter) {
     }
 
     private fun appendReturnIfNotExists(function: Function, methodVisitor: MethodVisitor) {
-        val lastStatement = function.statements.last()
+        val lastStatement = function.statements.lastOrNull()
         if (lastStatement !is ReturnStatement) {
             // suboptimal nesting -> bad cyclomatic complexity; should refactor
             val opcode = if (lastStatement is Expression && function.returnType == lastStatement.type) {

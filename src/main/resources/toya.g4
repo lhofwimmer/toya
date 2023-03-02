@@ -140,8 +140,8 @@ FALSE: 'false';
 NULL: 'null';
 
 ASSERT: EQUALS;
-STRING: '"'.*?'"';
 
+STRING: '"'.*?'"';
 INT: '-'? DIGIT+;
 FLOAT: INT'.'DIGIT+;
 ID: (LOWERCASE|UPPERCASE|DIGIT|'_')+;

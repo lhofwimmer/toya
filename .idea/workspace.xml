@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5edbeecc-4ebc-4006-9e86-a319e8279d86" name="Changes" comment="MOD some bugfixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/scope/Scope.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/scope/Scope.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/type/BasicType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/type/BasicType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ast/type/Type.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ast/type/Type.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/backend/FunctionGenerator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Main.toya" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Main.toya" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/toya.g4" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/toya.g4" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,29 +75,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last.edited.regexp&quot;: &quot;\&quot;123123123iasjdfpasiodjf.5!@%!@%\&quot;&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/home/Lukas/projects/toya/src/main/kotlin/exception&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/home/Lukas/Schule/5_Semester/ba/HgbThesisDE&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.3770115&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last.edited.regexp": "\"123123123iasjdfpasiodjf.5!@%!@%\"",
+    "last_directory_selection": "C:/home/Lukas/projects/toya/src/main/kotlin/exception",
+    "last_opened_file_path": "C:/home/Lukas/Schule/5_Semester/ba/HgbThesisDE",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.3770115",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="exception.compilation" />
@@ -198,7 +204,7 @@
       <workItem from="1677514758751" duration="2629000" />
       <workItem from="1677567366913" duration="1440000" />
       <workItem from="1677676085637" duration="9935000" />
-      <workItem from="1677755942869" duration="1275000" />
+      <workItem from="1677755942869" duration="11600000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1663208045824</created>
@@ -270,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677758321254</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="MOD some bugfixes">
+      <created>1677758868474</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1677758868474</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,11 +330,6 @@
           <url>file://$PROJECT_DIR$/src/main/kotlin/backend/StatementGenerator.kt</url>
           <line>34</line>
           <option name="timeStamp" value="52" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/backend/ExpressionGenerator.kt</url>
-          <line>52</line>
-          <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/parsing/visitor/ExpressionVisitor.kt</url>
