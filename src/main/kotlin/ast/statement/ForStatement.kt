@@ -5,7 +5,7 @@ import ast.scope.Scope
 
 data class ForStatement(
     val forHead: ForHead,
-    val statements: List<Statement>,
+    val statements: List<Statement> = listOf(),
     val scope: Scope
 ) : Statement
 

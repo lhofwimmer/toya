@@ -1,5 +1,3 @@
-@file:Suppress("JAVA_MODULE_DOES_NOT_EXPORT_PACKAGE")
-
 package backend
 
 import ast.expression.*
@@ -37,11 +35,11 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
 
         generate(arrayAccess.location, scope)
 
-        val opcode = arrayAccess.type.handleTypeArrays(
-            ia = {Opcodes.IALOAD},
-            da = {Opcodes.DALOAD},
-            aa = {Opcodes.AALOAD},
-            ba = {Opcodes.BALOAD}
+        val opcode = arrayAccess.type.handleTypeGroups(
+            i = {Opcodes.IALOAD},
+            d = {Opcodes.DALOAD},
+            a = {Opcodes.AALOAD},
+            z = {Opcodes.BALOAD}
         )
         methodVisitor.visitInsn(opcode)
     }
@@ -54,18 +52,17 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
         // generate if condition
         generate(condition, scope)
 
-        val falseLabel = Label()
+        val trueLabel = Label()
         val endLabel = Label()
 
-        methodVisitor.visitJumpInsn(Opcodes.IFEQ, falseLabel)
-
-        generateBranch(trueBranch, scope)
-        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel)
-
+        methodVisitor.visitJumpInsn(Opcodes.IFNE, trueLabel)
         if (elseBranch != null) {
-            methodVisitor.visitLabel(falseLabel)
             generateBranch(elseBranch, scope)
         }
+
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel)
+        methodVisitor.visitLabel(trueLabel)
+        generateBranch(trueBranch, scope)
 
         methodVisitor.visitLabel(endLabel)
     }
@@ -207,12 +204,23 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
         val localVariable = scope.getLocalVariable(varName)
         val type = localVariable.type
 
-        val instruction = type.handleTypeGroups(
-            i = { Opcodes.ILOAD },
-            d = { Opcodes.DLOAD },
-            a = { Opcodes.ALOAD },
-            z = { Opcodes.ILOAD }
-        )
+        val instruction = if(type.isArrayType()) {
+            type.handleTypeArrays(
+                ia = {Opcodes.IALOAD},
+                da = {Opcodes.DALOAD},
+                aa = {Opcodes.AALOAD},
+                ba = {Opcodes.BALOAD}
+            )
+        } else {
+            type.handleTypeGroups(
+                i = { Opcodes.ILOAD },
+                d = { Opcodes.DLOAD },
+                a = { Opcodes.ALOAD },
+                z = { Opcodes.ILOAD }
+            )
+        }
+
+
         methodVisitor.visitVarInsn(instruction, index)
     }
 
@@ -236,13 +244,13 @@ class ExpressionGenerator(private val methodVisitor: MethodVisitor) {
         type.handleTypeGroups(
             i = {
                 val intValue = stringValue.toInt()
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, intValue)
+                methodVisitor.visitLdcInsn(intValue)
             },
             d = {
                 val doubleValue = stringValue.toDouble()
                 methodVisitor.visitLdcInsn(doubleValue)
             },
-            a = { methodVisitor.visitLdcInsn(stringValue) },
+            a = { methodVisitor.visitLdcInsn(stringValue.trim('"')) },
             z = {
                 val opcode = if (stringValue == "true") Opcodes.ICONST_1 else Opcodes.ICONST_0
                 methodVisitor.visitInsn(opcode)

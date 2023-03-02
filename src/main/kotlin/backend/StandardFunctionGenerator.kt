@@ -20,7 +20,7 @@ class StandardFunctionGenerator(private val mv: MethodVisitor, private val expre
         expressionGenerator.generate(expression, scope)
         val type = expression.type
         val descriptor = "(${type.getDescriptor()})V"
-        val fieldDescriptor = "Ljava/io/PrintStream;"
+        val fieldDescriptor = "java/io/PrintStream"
         mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, fieldDescriptor, "println", descriptor, false)
     }
 }
